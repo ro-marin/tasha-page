@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>tasha</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background-color: #e6dbf5;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      overflow: hidden;
+      transition: background-color 2s ease;
+    }
+
+    #heart-wrapper {
+      width: 80px;
+      height: 80px;
+      position: relative;
+      cursor: pointer;
+      z-index: 10;
+      transition: opacity 2s ease-in-out;
+    }
+
+    #heart {
+      width: 40px;
+      height: 40px;
+      background-color: white;
+      transform: rotate(-45deg);
+      position: absolute;
+      top: 20px;
+      left: 20px;
+    }
+
+    #heart::before,
+    #heart::after {
+      content: "";
+      width: 40px;
+      height: 40px;
+      background-color: white;
+      border-radius: 50%;
+      position: absolute;
+    }
+
+    #heart::before {
+      top: -20px;
+      left: 0;
+    }
+
+    #heart::after {
+      left: 20px;
+      top: 0;
+    }
+
+    #text-under {
+      margin-top: 20px;
+      font-size: 0.8rem;
+      color: white;
+      opacity: 0.8;
+      z-index: 5;
+      transition: opacity 1s ease;
+    }
+
+    #countdownContainer {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      opacity: 0;
+      color: white;
+      transition: opacity 3s ease-in-out;
+      z-index: 2;
+      max-width: 90%;
+    }
+
+    #countdown {
+      font-size: 3rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
+    #message {
+      font-size: 1rem;
+    }
+
+    body.activated #heart-wrapper {
+      opacity: 0;
+    }
+
+    body.activated #text-under {
+      opacity: 0;
+    }
+
+    body.activated #countdownContainer {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <div id="heart-wrapper">
+    <div id="heart"></div>
+  </div>
+  <div id="text-under">clique la sha</div>
+
+  <div id="countdownContainer">
+    <div id="countdown"></div>
+    <div id="message">c'est ça d'avoir un ptit copain chelou, il te fait un site bizarre avec un compte à rebours jusqu'au moment ou on se verra..</div>
+  </div>
+
+  <script>
+    document.getElementById('heart-wrapper').addEventListener('click', function () {
+      document.body.classList.add('activated');
+    });
+
+    const countdownEl = document.getElementById("countdown");
+    const targetDate = new Date("2025-06-12T22:00:00");
+
+    function updateCountdown() {
+      const now = new Date();
+      const diff = targetDate - now;
+
+      if (diff <= 0) {
+        countdownEl.textContent = "C'est l'heure !";
+        return;
+      }
+
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hrs = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const mins = Math.floor((diff / (1000 * 60)) % 60);
+      const secs = Math.floor((diff / 1000) % 60);
+
+      countdownEl.textContent = `${days}j ${hrs}h ${mins}m ${secs}s`;
+    }
+
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+  </script>
+</body>
+</html>
